@@ -60,12 +60,14 @@ func(t *Tasks)Add(flag *string){
 func(t *Tasks)Update(flag *int, description string){
 	if *flag != 0{
 		i := 0
-		for i:=0;i<len(t.Tasks);i++{
+		found := false
+		for ;i<len(t.Tasks);i++{
 			if t.Tasks[i].Id == *flag{
+				found = true
 				break
 			}
 		}
-		if t.Tasks[i].Id != *flag{
+		if !found{
 			log.Fatalf("There's no task with ID: %d\n", *flag)
 		}
 
@@ -74,5 +76,25 @@ func(t *Tasks)Update(flag *int, description string){
 
 		t.Save()
 		fmt.Printf("Task updated successfully (ID: %d)", *flag)
+	}
+}
+
+func(t *Tasks)Delete(flag *int){
+	if *flag != 0{
+		i:=0
+		found := false
+		for ;i<len(t.Tasks);i++{
+			if t.Tasks[i].Id == *flag{
+				found = true
+				break
+			}
+		}
+		if !found {
+			log.Fatalf("There's no task with ID: %d\n", *flag)
+		}
+		t.Tasks = append(t.Tasks[:i], t.Tasks[i+1:]...)
+
+		t.Save()
+		fmt.Printf("Task deleted successfully (ID: %d)\n", *flag)
 	}
 }
