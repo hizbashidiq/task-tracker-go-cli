@@ -1,59 +1,23 @@
 package main
 
 import (
-	"encoding/json"
 	"flag"
-	"log"
-	"os"
-	"time"
-	"fmt"
 )
 
 func main(){
 
 	// load json file
-	var tasks Tasks
-
-	jsontasks, err := os.ReadFile("tasks.json")
-	if err!=nil{
-		if os.IsNotExist(err){
-			os.Create("tasks.json")
-		}
-	}else{
-		err = json.Unmarshal(jsontasks, &tasks)
-		if err!=nil{
-			log.Fatal(err)
-		}
-	}
+	tasks := Load()
 
 	// flag setup
 	addFlag := flag.String("add","",`add your task to JSON file. Usage -add "task_description"`)
-
+	// updateFlag := flag.Int("update",0,`update your available task. Usage -update task_id`)
 	flag.Parse()
 	
 
 	// Add task
-	if *addFlag == ""{
-		log.Fatal("Task description can't be empty")
-	}
-	task := Task{
-		Id : len(tasks.Tasks)+1,
-		Description: *addFlag,
-		Status: "todo",
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
-	}
+	tasks.Add(addFlag)
+	
+	// Update Task
 
-	tasks.Tasks = append(tasks.Tasks, task)
-
-	jsontasks, err = json.MarshalIndent(&tasks, "", "  ")
-	if err!=nil{
-		log.Fatal(err)
-	}
-
-	err = os.WriteFile("tasks.json", jsontasks, 0666)
-	if err!=nil{
-		log.Fatal(err)
-	}
-	fmt.Printf("Task added successfully (ID):%d", task.Id)
 }
