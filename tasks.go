@@ -44,7 +44,7 @@ func(t *Tasks)Save(){
 func(t *Tasks)Add(flag *string){
 	if *flag != ""{
 		task := Task{
-			Id : len(t.Tasks)+1,
+			Id : t.Tasks[len(t.Tasks)-1].Id+1,
 			Description: *flag,
 			Status: "todo",
 			CreatedAt: time.Now(),
