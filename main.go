@@ -13,6 +13,7 @@ func main(){
 	addFlag := flag.String("add","",`add your task to JSON file. Usage -add task_description`)
 	updateFlag := flag.Int("update",0,`update your available task. Usage -update task_id task_description`)
 	deleteFlag := flag.Int("delete",0,`delete your available task. Usage -delete task_id`)
+	markFlag := flag.Int("mark",0, `mark your task as in-progress and done. Usage -mark task_id status`)
 
 	flag.Parse()
 	
@@ -25,4 +26,7 @@ func main(){
 
 	// Delete Task
 	tasks.Delete(deleteFlag)
+
+	// Mark Task
+	tasks.Mark(markFlag, flag.Arg(0))
 }

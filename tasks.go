@@ -58,7 +58,7 @@ func(t *Tasks)Add(flag *string){
 }
 
 func(t *Tasks)Update(flag *int, description string){
-	if *flag != 0{
+	if *flag != 0 && description!=""{
 		i := 0
 		found := false
 		for ;i<len(t.Tasks);i++{
@@ -97,4 +97,28 @@ func(t *Tasks)Delete(flag *int){
 		t.Save()
 		fmt.Printf("Task deleted successfully (ID: %d)\n", *flag)
 	}
+}
+
+func(t *Tasks)Mark(flag *int, status string){
+	if *flag!=0 && status!=""{
+		if status == "in-progress" || status == "done"{
+			i := 0
+			found := false
+			for ;i<len(t.Tasks);i++{
+				if t.Tasks[i].Id == *flag{
+					found = true
+					break
+				}
+			}
+			if !found{
+				log.Fatalf("There's no task with ID: %d\n", *flag)
+			}
+	
+			t.Tasks[i].Status = status
+
+			t.Save()
+			fmt.Printf("Mark task as %s successfully (ID: %d)\n",status, *flag)
+		}
+	}
+	
 }
