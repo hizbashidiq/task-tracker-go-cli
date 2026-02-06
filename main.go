@@ -45,7 +45,7 @@ func main(){
 
 	tasks.Tasks = append(tasks.Tasks, task)
 
-	jsontasks, err = json.Marshal(&tasks)
+	jsontasks, err = json.MarshalIndent(&tasks, "", "  ")
 	if err!=nil{
 		log.Fatal(err)
 	}
