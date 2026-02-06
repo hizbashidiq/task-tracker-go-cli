@@ -58,5 +58,21 @@ func(t *Tasks)Add(flag *string){
 }
 
 func(t *Tasks)Update(flag *int, description string){
+	if *flag != 0{
+		i := 0
+		for i:=0;i<len(t.Tasks);i++{
+			if t.Tasks[i].Id == *flag{
+				break
+			}
+		}
+		if t.Tasks[i].Id != *flag{
+			log.Fatalf("There's no task with ID: %d\n", *flag)
+		}
 
+		t.Tasks[i].Description = description
+		t.Tasks[i].UpdatedAt = time.Now()
+
+		t.Save()
+		fmt.Printf("Task updated successfully (ID: %d)", *flag)
+	}
 }
