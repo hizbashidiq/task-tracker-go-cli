@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"time"
+	"fmt"
 )
 
 func main(){
@@ -54,4 +55,5 @@ func main(){
 	if err!=nil{
 		log.Fatal(err)
 	}
+	fmt.Printf("Task added successfully (ID):%d", task.Id)
 }
